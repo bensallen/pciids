@@ -11,6 +11,7 @@ import (
 var input = flag.String("i", "", "Path to input pci.ids file")
 var output = flag.String("o", "", "Path to output (Default: os.Stdout)")
 var pkgName = flag.String("n", "pciids", "Package name for generated IDs file")
+var formatType = flag.String("t", "plain", "Specify the output format [plain|go|json]")
 
 func main() {
 	flag.Parse()
@@ -41,7 +42,12 @@ func main() {
 		defer outputf.Close()
 	}
 
-	err = parse.Parse(inputf, outputf, *pkgName)
+	if !(*formatType == "plain" || *formatType == "go" || *formatType == "json") {
+		fmt.Printf("Error unknown output type: %s\n", *formatType)
+		os.Exit(1)
+	}
+
+	err = parse.Parse(inputf, outputf, *pkgName, *formatType)
 
 	if err != nil {
 		fmt.Printf("Error parsing input: %s\n", err)

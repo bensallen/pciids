@@ -1,4 +1,4 @@
-package pciids
+package goids
 
 type Vendor struct {
 	Name    string

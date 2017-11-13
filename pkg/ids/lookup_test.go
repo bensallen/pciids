@@ -1,4 +1,4 @@
-package pciids
+package ids
 
 import "testing"
 
@@ -6,7 +6,11 @@ func TestLookup(t *testing.T) {
 
 	t.Run("Lookup Using IDs", func(t *testing.T) {
 		v1, d1 := "Efar Microsystems", "LAN9420/LAN9420i"
-		v2, d2 := Lookup("1055", "e420")
+		ids, err := NewIDs()
+		if err != nil {
+			t.Fatalf("NewIDs error:%s\n", err)
+		}
+		v2, d2 := Lookup(ids, "1055", "e420")
 		if v1 != v2 {
 			t.Fatalf("Vendor mismatch, found %s, expected %s\n", v1, v2)
 		}
